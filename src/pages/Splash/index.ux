@@ -1,0 +1,217 @@
+<import name="ad-logs" src="../../Common/components/adLogs.ux"></import>
+<import name="topon-ad" src="../../../sdk/placement.ux"></import>
+
+<template>
+  <div class="page-container">
+    <text class="title"> - 开屏广告 - </text>
+
+    <ad-logs></ad-logs>
+
+    <!-- 使用Placement组件 -->
+    <topon-ad
+      id="top-on-ad"
+      placement-id="b63ac0c3aa2a50"
+      config="{{config}}"
+      @ad-load="handleAdLoad"
+      @ad-show="handleAdShow"
+      @ad-close="handleAdClose"
+      @ad-click="handleAdClick"
+      @ad-error="handleAdError"
+    >
+    </topon-ad>
+
+    <input
+      class="btn"
+      type="button"
+      value="加载/刷新广告"
+      onclick="handleLoadAd"
+    />
+
+    <input class="btn" type="button" value="isReady?" onclick="handleIsReady" />
+
+    <input class="btn" type="button" value="Get AD" onclick="handleGetAd" />
+
+    <input
+      if="{{isGetAd && !isSelfRendering}}"
+      class="btn"
+      type="button"
+      value="Get AD"
+      onclick="handleGetAd"
+    />
+
+    <input
+      if="{{isGetAd && !isSelfRendering}}"
+      class="btn"
+      type="button"
+      value="TK Show（自渲染）"
+      onclick="handleReportShow"
+    />
+
+    <input
+      if="{{isSelfRendering}}"
+      class="btn"
+      type="button"
+      value="TK Click（自渲染）"
+      onclick="handleReportClick"
+    />
+  </div>
+</template>
+    
+<script>
+import { isEmptyObject } from '../../sdk/helper/type';
+
+export default {
+  private: {
+    loaded: false,
+    isGetAd: false,
+    isSelfRendering: false,
+    config: {
+      entry: '/pages/Home', // 开屏广告结束后打开的第一个页面
+      timeout: 300000 // 默认0（走默认，开屏5秒，其他300秒），单位毫秒
+    }
+  },
+
+  public: {
+    placement: null
+  },
+
+  onShow() {
+    // 组件未挂载完成
+    // this.placement = this.getSdkElement()
+    // this.handleDisplayAd()
+    // setTimeout(() => {
+    //   this.handleDisplayAd()
+    // }, 100)
+  },
+
+  // 广告源Load成功回调
+  handleAdLoad(e) {
+    const adapter = this.getAdapter()
+    this.$broadcast('logsUnshift', 'demo接收load回调：' + JSON.stringify(e) + ` ${adapter}`)
+    console.log('demo接收load回调', e)
+    this.loaded = true
+    // this.isSelfRendering = e?.detail?.isSelfRendering || false
+    // // 需要等待load完成后获取
+    // if (!e?.detail?.isSelfRendering) {
+    //   // 需要等待load完成后获取
+    //   // this.handleDisplayAd()
+    // }
+  },
+
+  // 广告源Show成功回调
+  handleAdShow(e) {
+    const adapter = this.getAdapter()
+    this.$broadcast('logsUnshift', 'demo接收show回调：' + JSON.stringify(e) + ` ${adapter}`)
+    console.log('demo接收show回调', e)
+  },
+
+  // 广告源Close成功回调
+  handleAdClose(e) {
+    const adapter = this.getAdapter()
+    this.$broadcast('logsUnshift', 'demo接收close回调：' + JSON.stringify(e) + ` ${adapter}`)
+    console.log('demo接收close回调', e)
+  },
+
+  handleAdClick(e) {
+    const adapter = this.getAdapter()
+    this.$broadcast('logsUnshift', 'demo接收click回调：' + JSON.stringify(e) + ` ${adapter}`)
+    console.log('demo接收click回调', e)
+  },
+
+  handleAdError(e) {
+    const adapter = this.getAdapter()
+    this.$broadcast('logsUnshift', 'demo接收error回调：' + JSON.stringify(e) + ` ${adapter}`)
+    console.log('demo接收error回调', e)
+  },
+
+
+  handleDisplayAd() {
+    this.$broadcast('logsUnshift', '执行Show')
+    const placement = this.getSdkElement();
+    if (placement.show) {
+      placement.show()
+    }
+  },
+
+  handleLoadAd() {
+    this.$broadcast('logsUnshift', '执行Load')
+    this.isGetAd = false
+    const placement = this.getSdkElement();
+    if (placement.load) {
+      placement.load()
+    }
+  },
+
+  handleIsReady() {
+    this.$broadcast('logsUnshift', '执行isReady')
+    const placement = this.getSdkElement()
+    if (placement.isReady) {
+      const isReady = placement.isReady()
+      this.$broadcast('logsUnshift', 'isReady: ' + isReady)
+      return isReady
+    }
+  },
+
+  handleGetAd() {
+    if (!this.loaded) {
+      this.$broadcast('logsUnshift', '请等待加载完成后再获取数据')
+      console.log('请等待加载完成后再获取数据')
+      return
+    }
+    const placement = this.getSdkElement()
+    if (placement.getAd) {
+      const currentAd = placement.getAd()
+      console.log(currentAd)
+      if (isEmptyObject(currentAd)) {
+        return;
+      }
+      this.isSelfRendering = currentAd ?.isSelfRendering
+      this.isGetAd = true
+      this.$broadcast('logsUnshift', currentAd)
+    }
+  },
+
+  handleReportShow() {
+    const placement = this.getSdkElement()
+    if (placement.reportShow) {
+      placement.reportShow()
+    }
+
+  },
+
+  handleReportClick() {
+    const placement = this.getSdkElement()
+    if (placement.reportClick) {
+      placement.reportClick()
+    }
+  },
+
+  getSdkElement() {
+    return this.$child('top-on-ad')
+  },
+  getAdapter() {
+    return {}
+  }
+}
+</script>
+    
+<style lang="less">
+.page-container {
+  flex-direction: column;
+  justify-content: center;
+
+  .title {
+    color: #ffa500;
+    margin: 30px;
+    text-align: center;
+  }
+
+  input {
+    margin: 30px 80px;
+    padding: 20px 0;
+    border-radius: 100px;
+    background-color: #2d8cf0;
+    color: #fff;
+  }
+}
+</style>

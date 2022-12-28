@@ -1,0 +1,24 @@
+<script>
+/**
+* 应用级别的配置，供所有页面公用
+*/
+import './utils/async.js'
+import { goPage } from './utils/common.js'
+import TOPON_AD_SDK from './sdk/app.js'
+
+export default {
+    onCreate() {
+        try {
+            const instance = new TOPON_AD_SDK({
+                app: this,
+                appId: 'a638dc4d4a41b1',
+                appKey: '4f7b9ac17decb9babec83aac078742c7'
+            });
+            this.$def.topon_sdk_instance = instance
+        } catch (error) {
+            console.log('error', error);
+        }
+    },
+    goPage
+}
+</script>

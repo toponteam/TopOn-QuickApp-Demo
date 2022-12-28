@@ -1,0 +1,48 @@
+{
+  "name": "@topon/quick-app-demo",
+  "version": "4.0.28",
+  "subversion": {
+    "toolkit": "0.6.2"
+  },
+  "description": "TopOn快应用广告SDK Demo",
+  "main": "index.js",
+  "scripts": {
+    "build": "hap build",
+    "release": "hap release",
+    "server": "hap server",
+    "watch": "hap watch",
+    "gulp": "gulp"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/runtime": "^7.6.3",
+    "@types/quickapp": "npm:quickapp-interface@^1.0.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^5.12.1",
+    "eslint-plugin-hybrid": "0.0.5",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "hap-toolkit": "^0.6.5",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "through2": "^4.0.2",
+    "union-quick-app-ad": "^1.0.28"
+  },
+  "browserslist": [
+    "chrome 65"
+  ],
+  "dependencies": {
+    "@topon/quick-app-sdk": "^4.0.28",
+    "js-base64": "^3.7.2",
+    "js-md5": "^0.7.3",
+    "lodash": "^4.17.21"
+  }
+}

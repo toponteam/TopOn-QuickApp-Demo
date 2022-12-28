@@ -1,0 +1,6 @@
+.quickapp.preview.json
+dist
+build
+node_module
+node_modules
+.ide
