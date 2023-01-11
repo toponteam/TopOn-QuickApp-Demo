@@ -1,5 +1,5 @@
 <import name="ad-logs" src="../../Common/components/adLogs.ux"></import>
-<import name="topon-ad" src="../../sdk/placement.ux"></import>
+<import name="topon-ad" src="@topon/quick-app-sdk/placement.ux"></import>
 
 <template>
   <div class="page-container">
@@ -10,7 +10,7 @@
     <!-- 使用Placement组件 -->
     <topon-ad
       id="top-on-ad"
-      placement-id="b638dc5a7de7f9"
+      placement-id="b63aa5eacbdbac"
       config="{{config}}"
       @ad-load="handleAdLoad"
       @ad-show="handleAdShow"
@@ -68,7 +68,6 @@
     
 <script>
 import router from '@system.router';
-import { isEmptyObject } from '../../sdk/helper/type';
 
 export default {
   private: {
@@ -167,7 +166,7 @@ export default {
       
       const currentAd = placement.getAd()
       console.log('currentAd', currentAd)
-      if(isEmptyObject(currentAd)){
+      if(!currentAd){
         return;
       }
       this.isSelfRendering = currentAd?.isSelfRendering

@@ -2,9 +2,7 @@
 /**
 * 应用级别的配置，供所有页面公用
 */
-import './utils/async.js'
-import { goPage } from './utils/common.js'
-import TOPON_AD_SDK from './sdk/app.js'
+import TOPON_AD_SDK from '@topon/quick-app-sdk/app.js'
 
 export default {
     onCreate() {
@@ -18,7 +16,6 @@ export default {
         } catch (error) {
             console.log('error', error);
         }
-    },
-    goPage
+    }
 }
 </script>
