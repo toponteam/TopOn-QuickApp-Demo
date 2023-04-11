@@ -84,6 +84,9 @@
       "UnionAd/AdLanding": {
         "component": "index"
       },
+      "TopOn/AdLanding": {
+        "component": "index"
+      },
       "pages/Banner": {
         "component": "index"
       },
@@ -144,6 +147,14 @@
         }
       },
       "UnionAd/AdLanding": {
+        "fullScreen": true,
+        "titleBar": false,
+        "statusBarImmersive": true,
+        "menuBarData": {
+          "menuBar": false
+        }
+      },
+      "TopOn/AdLanding": {
         "fullScreen": true,
         "titleBar": false,
         "statusBarImmersive": true,

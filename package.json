@@ -40,7 +40,7 @@
     "chrome 65"
   ],
   "dependencies": {
-    "@topon/quick-app-sdk": "^4.0.36",
+    "@topon/quick-app-sdk": "^4.1.10",
     "js-base64": "^3.7.2",
     "js-md5": "^0.7.3",
     "lodash": "^4.17.21"
