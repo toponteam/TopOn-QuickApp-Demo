@@ -92,6 +92,9 @@
       },
       "pages/Interstitial": {
         "component": "index"
+      },
+      "TopOn/AdReward": {
+        "component": "index"
       }
     }
   },
@@ -167,6 +170,14 @@
       },
       "pages/Interstitial": {
         "titleBarText": ""
+      },
+      "TopOn/AdReward": {
+        "fullScreen": true,
+        "titleBar": false,
+        "statusBarImmersive": true,
+        "menuBarData": {
+          "menuBar": false
+        }
       }
     }
   }
