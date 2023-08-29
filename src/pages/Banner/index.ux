@@ -11,8 +11,8 @@
 
     <!-- 使用Placement组件 -->
     <topon-ad
-      id="top-on-ad"
-      placement-id="b638dc5f2c74bd"
+      id="top-on-ad-{{placementId}}"
+      placement-id="{{placementId}}"
       config="{{config}}"
       @ad-load="handleAdLoad"
       @ad-show="handleAdShow"
@@ -29,17 +29,17 @@
 import router from '@system.router';
 
 export default {
-  private: {
-    loaded: false,
+  data() {
+    return {
+      loaded: false,
+      isGetAd: false,
+      config: {
+        entry: '/pages/Home', // 开屏广告结束后打开的第一个页面
+        timeout: 30000 // 默认0（走默认，开屏5秒，其他300秒），单位毫秒
+      },
 
-    config: {
-      entry: '/pages/Home', // 开屏广告结束后打开的第一个页面
-      timeout: 30000 // 默认0（走默认，开屏5秒，其他300秒），单位毫秒
+      placementId: '${your placementId exp: b123456}', // 请替换为您在topon 开发者后台上的placementId
     }
-  },
-
-  public: {
-    placement: null
   },
 
   onReady() {
@@ -48,52 +48,36 @@ export default {
 
   // 广告源Load成功回调
   handleAdLoad(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收load回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收load回调：' + JSON.stringify(e))
     console.log('demo接收load回调', e)
     this.loaded = true
-    // 需要等待load完成后获取
   },
 
   // 广告源Show成功回调
   handleAdShow(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收show回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收show回调：' + JSON.stringify(e))
     console.log('demo接收show回调', e)
   },
 
   // 广告源Close成功回调
   handleAdClose(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收close回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收close回调：' + JSON.stringify(e))
     console.log('demo接收close回调', e)
   },
 
   handleAdClick(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收click回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收click回调：' + JSON.stringify(e))
     console.log('demo接收click回调', e)
   },
 
   handleAdReward(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收reward回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收reward回调：' + JSON.stringify(e))
     console.log('demo接收reward回调', e)
   },
 
   handleAdError(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收error回调：' + JSON.stringify(e) + `${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收error回调：' + JSON.stringify(e))
     console.log('demo接收error回调', e)
-  },
-
-
-  handleDisplayAd() {
-    this.$broadcast('logsUnshift', '执行Show')
-    const placement = this.getSdkElement()
-    if (placement.show) {
-      placement.show()
-    }
   },
 
   handleLoadAd() {
@@ -104,26 +88,8 @@ export default {
     }
   },
 
-  handleGetAd() {
-    const placement = this.getSdkElement()
-    if (placement.getAd) {
-      const currentAd = placement.getAd()
-      console.log(currentAd)
-      if (!currentAd) {
-        return;
-      }
-      this.isSelfRendering = currentAd ?.isSelfRendering
-      this.isGetAd = true
-      this.$broadcast('logsUnshift', currentAd)
-    }
-  },
-
   getSdkElement() {
-    return this.$child('top-on-ad')
-  },
-
-  getAdapter () {
-    return {}
+    return this.$child(`top-on-ad-${this.placementId}`)
   }
 }
 </script>

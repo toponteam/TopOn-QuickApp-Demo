@@ -11,8 +11,8 @@
 
     <!-- 使用Placement组件 -->
     <topon-ad
-      id="top-on-ad"
-      placement-id="b632c1438f3896"
+      id="top-on-ad-{{placementId}}"
+      placement-id="{{placementId}}"
       config="{{config}}"
       @ad-load="handleAdLoad"
       @ad-show="handleAdShow"
@@ -77,7 +77,8 @@ export default {
       },
 
       adData: null, // 广告物料，通过getAd获取
-      displayed: false // 自渲染广告组件展示控制
+      displayed: false, // 自渲染广告组件展示控制
+      placementId: '${your placementId exp: b123456}', // 请替换为您在topon 开发者后台上的placementId
     }
   },
 
@@ -87,35 +88,30 @@ export default {
 
   // 广告源Load成功回调
   handleAdLoad(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收load回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收load回调：' + JSON.stringify(e))
     console.log('demo接收load回调', e)
     this.loaded = true
   },
 
   // 广告源Show成功回调
   handleAdShow(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收show回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收show回调：' + JSON.stringify(e))
     console.log('demo接收show回调', e)
   },
 
   // 广告源Close成功回调
   handleAdClose(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收close回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收close回调：' + JSON.stringify(e))
     console.log('demo接收close回调', e)
   },
 
   handleAdClick(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收click回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收click回调：' + JSON.stringify(e))
     console.log('demo接收click回调', e)
   },
 
   handleAdError(e) {
-    const adapter = this.getAdapter()
-    this.$broadcast('logsUnshift', 'demo接收error回调：' + JSON.stringify(e) + ` ${adapter}`)
+    this.$broadcast('logsUnshift', 'demo接收error回调：' + JSON.stringify(e))
     console.log('demo接收error回调', e)
   },
 
@@ -166,6 +162,7 @@ export default {
     const placement = this.getSdkElement()
     if (placement) {
       const currentAd = placement.getAd()
+      console.log('currentAd', currentAd)
       if (!currentAd) {
         return;
       }
@@ -199,11 +196,7 @@ export default {
   },
 
   getSdkElement() {
-    return this.$child('top-on-ad')
-  },
-
-  getAdapter() {
-    return {}
+    return this.$child(`top-on-ad-${this.placementId}`)
   },
 
   handleCloseSplash() {
